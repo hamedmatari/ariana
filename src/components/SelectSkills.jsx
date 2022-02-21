@@ -20,7 +20,7 @@ const MenuProps = {
   },
 };
 
-const skills = ["React", "Vue", "Redux", "Nestjs", "Material UI", "HTML"];
+const skills = ["React", "Vue", "Redux", "Nestjs", "MaterialUI", "HTML"];
 
 function getStyles(name, personName, theme) {
   return {

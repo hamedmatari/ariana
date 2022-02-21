@@ -30,18 +30,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0),
-  createData("Ice cream sandwich", 237, 9.0),
-  createData("Eclair", 262, 16.0),
-  createData("Cupcake", 305, 3.7),
-  createData("Gingerbread", 356, 16.0),
-];
-
 export default function InfoTable() {
   const users = useSelector((state) => state.users.users);
 
@@ -62,7 +50,11 @@ export default function InfoTable() {
                 <StyledTableCell component="th" scope="row">
                   {user.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{user.skills}</StyledTableCell>
+
+                <StyledTableCell align="right">
+                  {user.skills.map((skill) => `${skill}  `)}
+                </StyledTableCell>
+
                 <StyledTableCell align="right">{user.date}</StyledTableCell>
               </StyledTableRow>
             ))}
