@@ -6,13 +6,7 @@ export const addUser = (user) => ({
 });
 
 const initialState = {
-  users: [
-    {
-      name: "jjjjj",
-      skills: ["aaa", "bbb"],
-      bithDate: "dddd",
-    },
-  ],
+  users: [],
 };
 
 export default (state = initialState, action) => {
