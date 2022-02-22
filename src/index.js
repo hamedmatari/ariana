@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import store, { persistor } from "./redux/configStore";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AddUser from "./routes/AddUser";
+import ChartPage from "./routes/ChartPage";
 import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.render(
@@ -16,7 +17,8 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="adduser" element={<AddUser />} />
+            <Route path="/adduser" element={<AddUser />} />
+            <Route path="/chart" element={<ChartPage />} />
           </Routes>
         </BrowserRouter>
       </PersistGate>

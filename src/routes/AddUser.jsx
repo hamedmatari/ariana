@@ -32,9 +32,6 @@ export default function AddUser() {
   };
 
   const users = useSelector((state) => state.users.users);
-  const handleClick2 = () => {
-    console.log(users);
-  };
 
   return (
     <Paper elevation={10} style={paperStyle}>

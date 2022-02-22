@@ -18,12 +18,15 @@ function App() {
           Users information
         </Typography>
         <Box sx={{ mt: 3 }}>
-          {/* <Button variant="contained">d</Button> */}
-
           <Link to="/AddUser">
             <IconButton aria-label="Example">
               <AddIcon />
             </IconButton>
+          </Link>
+        </Box>
+        <Box sx={{ mt: 3 }}>
+          <Link style={{ textDecoration: "none", color: "white" }} to="/chart">
+            <Button variant="contained">charts</Button>
           </Link>
         </Box>
       </Box>
