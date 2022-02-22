@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import SelectSkills from "../components/SelectSkills";
+
 import { addUser } from "../redux/ducks/users";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -51,22 +52,29 @@ export default function AddUser() {
           />
         </Grid>
         <Grid sx={{ mt: 5, width: "50%" }} item>
-          date of birth
-          {/* <Date /> */}
+          <Typography> date of birth</Typography>
         </Grid>
         <Grid sx={{ my: 5, width: "50%" }} item>
           <SelectSkills setSkills={setSkills} />
         </Grid>
-        <Button
-          onClick={handleClick}
-          size="large"
-          color="primary"
-          variant="contained"
+        <Grid
+          item
+          sx={{
+            width: "50%",
+          }}
         >
-          <Link style={{ textDecoration: "none" }} to="/">
-            Submit
-          </Link>
-        </Button>
+          <Button
+            onClick={handleClick}
+            size="large"
+            color="primary"
+            variant="contained"
+            fullWidth
+          >
+            <Link style={{ textDecoration: "none", color: "white" }} to="/">
+              Submit
+            </Link>
+          </Button>
+        </Grid>
       </Grid>
     </Paper>
   );

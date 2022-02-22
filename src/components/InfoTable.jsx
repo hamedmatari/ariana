@@ -52,7 +52,7 @@ export default function InfoTable() {
                 </StyledTableCell>
 
                 <StyledTableCell align="right">
-                  {user.skills.map((skill) => `${skill}  `)}
+                  {user.skills.join(" , ")}
                 </StyledTableCell>
 
                 <StyledTableCell align="right">{user.date}</StyledTableCell>

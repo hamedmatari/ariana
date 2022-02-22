@@ -81,6 +81,7 @@ export default function SelectSkills({ setSkills }) {
       />
       <Menu
         id="basic-menu"
+        sx={{ mx: { md: 5, xs: 0 }, mt: { md: "10px", xs: "30px" } }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -88,9 +89,15 @@ export default function SelectSkills({ setSkills }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        {input.map((item) => (
-          <MenuItem key={item.name}>
+        {input.map((item, ind) => (
+          <MenuItem sx={{ px: 0 }} key={item.name}>
             <FormControlLabel
+              sx={{
+                width: "100%",
+                height: "100%",
+                pl: 3,
+                pr: 8,
+              }}
               control={
                 <Switch
                   checked={item.checked}
@@ -102,7 +109,7 @@ export default function SelectSkills({ setSkills }) {
             />
           </MenuItem>
         ))}
-        <Button onClick={addBtn} sx={{ ml: 7 }}>
+        <Button onClick={addBtn} fullWidth>
           add
         </Button>
       </Menu>
