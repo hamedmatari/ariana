@@ -1,13 +1,12 @@
 import React from "react";
-import { Chart, ArcElement } from "chart.js";
+import { Chart, ChartJS } from "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { useSelector } from "react-redux";
-
-Chart.register(ArcElement);
 
 export default function ChartPage() {
   const users = useSelector((state) => state.users.users);
-  const hhh = users.map((user) => user.skills);
+  const skills = users.map((user) => user.skills);
   const allSkills = {
     html: 0,
     react: 0,
@@ -15,30 +14,30 @@ export default function ChartPage() {
     css: 0,
     materialUI: 0,
   };
-  hhh.forEach((arr) => {
+  skills.forEach((arr) => {
     arr.forEach((item) => {
       allSkills[item]++;
     });
   });
-  const labels = Object.values(allSkills);
+  const labels = Object.keys(allSkills);
 
   const values = Object.values(allSkills);
-  console.log(values);
+
   const data = {
     labels,
     datasets: [
       {
         data: values,
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(234, 99, 132, 0.2)",
-          "rgba(76, 162, 235, 0.2)",
-          "rgba(34, 206, 86, 0.2)",
+          "rgba(255, 99, 132, 0.3)",
+          "rgba(25,  77, 0  , 0.3)",
+          "rgba(255, 206, 86, 0.3)",
+          "rgba(75, 192, 192, 0.3)",
+          "rgba(153, 102, 255, 0.3)",
+          "rgba(255, 159, 64, 0.3)",
+          "rgba(234, 99, 132, 0.3)",
+          "rgba(76, 162, 235, 0.3)",
+          "rgba(34, 206, 86, 0.4)",
           "rgba(75, 192, 192, 0.2)",
           "rgba(65, 54, 255, 0.2)",
           "rgba(123, 89, 64, 0.2)",
@@ -59,7 +58,8 @@ export default function ChartPage() {
   return (
     <div>
       <div style={{ width: "500px", margin: "50px auto" }}>
-        <Doughnut data={data} />
+        <Pie data={data} />
+        {/* <Doughnut data={data} /> */}
       </div>
     </div>
   );
