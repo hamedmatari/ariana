@@ -6,13 +6,14 @@ import SelectSkills from "../components/SelectSkills";
 
 import { addUser } from "../redux/ducks/users";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 
 const paperStyle = {
-  padding: 20,
+  padding: 10,
   height: "70vh",
-  width: "50vw",
-  margin: "50px auto",
+  width: "40vw",
+  margin: "30px auto",
 };
 
 export default function AddUser() {
@@ -21,22 +22,37 @@ export default function AddUser() {
   const [date, setDate] = useState("");
   const [skills, setSkills] = useState();
 
+  const navigate = useNavigate();
+
   const handleClick = () => {
-    dispatch(
-      addUser({
-        name,
-        date,
-        skills,
-      })
-    );
+    if (name && skills) {
+      dispatch(
+        addUser({
+          name,
+          date,
+          skills,
+        })
+      );
+      navigate("/");
+    } else {
+      alert("please fill the fields first");
+    }
   };
 
   const users = useSelector((state) => state.users.users);
 
   return (
     <Paper elevation={10} style={paperStyle}>
-      <Grid container direction="column" alignItems="center" justify="center">
-        <Typography variant="h6">Add user</Typography>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justify="center"
+        sx={{ mt: 5 }}
+      >
+        <Grid item>
+          <Typography variant="h6">Add user</Typography>
+        </Grid>
         <Grid sx={{ mt: 5, width: "50%" }} item>
           <TextField
             variant="outlined"
@@ -67,9 +83,7 @@ export default function AddUser() {
             variant="contained"
             fullWidth
           >
-            <Link style={{ textDecoration: "none", color: "white" }} to="/">
-              Submit
-            </Link>
+            Submit
           </Button>
         </Grid>
       </Grid>

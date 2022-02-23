@@ -81,7 +81,7 @@ export default function SelectSkills({ setSkills }) {
       />
       <Menu
         id="basic-menu"
-        sx={{ mx: { md: 5, xs: 0 }, mt: { md: "10px", xs: "30px" } }}
+        sx={{ mx: { md: 2, xs: 0 }, mt: { md: "15px", xs: "60px" } }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
