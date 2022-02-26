@@ -1,3 +1,4 @@
+Stack : React / Redux / React Router / Redux Persist / Chartjs / Material UI 
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
