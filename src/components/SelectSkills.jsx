@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   MenuItem,
   Menu,
@@ -9,37 +9,31 @@ import {
   TextField,
 } from "@mui/material";
 
-let inputValue = [];
-
-export default function SelectSkills({ setSkills }) {
-  const [input, setInput] = useState([
+export default function SelectSkills({ selectedSkills, setSelectedSkills }) {
+  const [skills, setSkills] = useState([
     {
-      name: "react",
+      name: "React",
       checked: false,
     },
     {
-      name: "vue",
+      name: "Vue",
       checked: false,
     },
     {
-      name: "html",
+      name: "HTML",
       checked: false,
     },
     {
-      name: "css",
+      name: "CSS",
       checked: false,
     },
     {
-      name: "materialUI",
+      name: "MaterialUI",
       checked: false,
     },
   ]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
-  useEffect(() => {
-    inputValue = [];
-  }, [inputValue]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,12 +44,13 @@ export default function SelectSkills({ setSkills }) {
   };
   const addBtn = () => {
     setAnchorEl(null);
-    inputValue = input.filter((item) => item.checked).map((item) => item.name);
-    setSkills(inputValue);
+    setSelectedSkills(
+      skills.filter((item) => item.checked).map((item) => item.name)
+    );
   };
 
   const handleSwitch = (e) => {
-    setInput((prvState) =>
+    setSkills((prvState) =>
       prvState.map((item) =>
         item.name === e.target.name
           ? { name: item.name, checked: !item.checked }
@@ -74,14 +69,14 @@ export default function SelectSkills({ setSkills }) {
         onClick={handleClick}
         id="outlined-read-only-input"
         label="User skills"
-        value={inputValue}
+        value={selectedSkills}
         InputProps={{
           readOnly: true,
         }}
       />
       <Menu
         id="basic-menu"
-        sx={{ mx: { md: 2, xs: 0 }, mt: { md: "15px", xs: "60px" } }}
+        sx={{ mt: 1 }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -89,7 +84,7 @@ export default function SelectSkills({ setSkills }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        {input.map((item, ind) => (
+        {skills.map((item) => (
           <MenuItem sx={{ px: 0 }} key={item.name}>
             <FormControlLabel
               sx={{

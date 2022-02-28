@@ -3,34 +3,47 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import SelectSkills from "../components/SelectSkills";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 
 import { addUser } from "../redux/ducks/users";
-import { useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
+
+import DateAdapter from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import { differenceInYears } from "date-fns";
 
 const paperStyle = {
   padding: 10,
   height: "70vh",
-  width: "40vw",
+  width: 400,
   margin: "30px auto",
+};
+const gridItemStyle = {
+  mt: 5,
+  width: "90%",
 };
 
 export default function AddUser() {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [skills, setSkills] = useState();
+  const [skills, setSkills] = useState([]);
+  const [date, setDate] = useState(null);
+  const [age, setAge] = useState(null);
+
+  document.title = "Add user | Ariana";
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (name && skills) {
+    if (name && skills.length >= 1 && date) {
       dispatch(
         addUser({
           name,
           date,
           skills,
+          age,
         })
       );
       navigate("/");
@@ -39,21 +52,20 @@ export default function AddUser() {
     }
   };
 
-  const users = useSelector((state) => state.users.users);
-
   return (
     <Paper elevation={10} style={paperStyle}>
       <Grid
         container
         direction="column"
+        justifyContent="center"
         alignItems="center"
-        justify="center"
         sx={{ mt: 5 }}
       >
-        <Grid item>
+        <Grid align="center" item sx={{ display: "flex" }}>
           <Typography variant="h6">Add user</Typography>
+          <PersonAddAltRoundedIcon sx={{ ml: 1 }} fontSize="large" />
         </Grid>
-        <Grid sx={{ mt: 5, width: "50%" }} item>
+        <Grid sx={gridItemStyle} item>
           <TextField
             variant="outlined"
             label="Name"
@@ -64,18 +76,28 @@ export default function AddUser() {
             }}
           />
         </Grid>
-        <Grid sx={{ mt: 5, width: "50%" }} item>
-          <Typography> date of birth</Typography>
+        <Grid sx={{ mt: 5, width: "90%", display: "flex" }} item>
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            <DesktopDatePicker
+              sx={{ backgroundColor: "blue" }}
+              label="Birth date"
+              inputFormat="MM/dd/yyyy"
+              value={date}
+              onChange={(newDate) => {
+                newDate = JSON.stringify(newDate).split("T")[0].substring(1);
+                setAge(differenceInYears(new Date(), new Date(date)));
+                setDate(newDate);
+              }}
+              renderInput={(params) => {
+                return <TextField {...params} fullWidth />;
+              }}
+            />
+          </LocalizationProvider>
         </Grid>
-        <Grid sx={{ my: 5, width: "50%" }} item>
-          <SelectSkills setSkills={setSkills} />
+        <Grid sx={{ my: 5, width: "90%" }} item>
+          <SelectSkills selectedSkills={skills} setSelectedSkills={setSkills} />
         </Grid>
-        <Grid
-          item
-          sx={{
-            width: "50%",
-          }}
-        >
+        <Grid item sx={{ width: "90%" }}>
           <Button
             onClick={handleClick}
             size="large"

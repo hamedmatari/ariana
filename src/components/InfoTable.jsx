@@ -42,22 +42,27 @@ export default function InfoTable() {
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell align="right">Skills</StyledTableCell>
               <StyledTableCell align="right">Date of birth</StyledTableCell>
+              <StyledTableCell align="right">Age</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((user) => (
-              <StyledTableRow key={user.name}>
-                <StyledTableCell component="th" scope="row">
-                  {user.name}
-                </StyledTableCell>
+            {users.map((user) => {
+              return (
+                <StyledTableRow key={user.name}>
+                  <StyledTableCell component="th" scope="row">
+                    {user.name}
+                  </StyledTableCell>
 
-                <StyledTableCell align="right">
-                  {user.skills.join(" , ")}
-                </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {user.skills.join(" , ")}
+                  </StyledTableCell>
 
-                <StyledTableCell align="right">{user.date}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+                  <StyledTableCell align="right">{user.date}</StyledTableCell>
+
+                  <StyledTableCell align="right">{user.age}</StyledTableCell>
+                </StyledTableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,18 +1,23 @@
 import React from "react";
+
 import { Chart, ChartJS } from "chart.js/auto";
-import { Doughnut } from "react-chartjs-2";
+
 import { Pie } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { useSelector } from "react-redux";
+import { Box, Container } from "@mui/material";
 
 export default function ChartPage() {
+  document.title = "Charts | Ariana";
   const users = useSelector((state) => state.users.users);
+
   const skills = users.map((user) => user.skills);
   const allSkills = {
-    html: 0,
-    react: 0,
-    vue: 0,
-    css: 0,
-    materialUI: 0,
+    HTML: 0,
+    React: 0,
+    Vue: 0,
+    CSS: 0,
+    MaterialUI: 0,
   };
   skills.forEach((arr) => {
     arr.forEach((item) => {
@@ -56,11 +61,8 @@ export default function ChartPage() {
   };
 
   return (
-    <div>
-      <div style={{ width: "500px", margin: "50px auto" }}>
-        <Pie data={data} />
-        {/* <Doughnut data={data} /> */}
-      </div>
+    <div style={{ width: "500px", margin: "50px auto" }}>
+      <Pie data={data} />
     </div>
   );
 }
