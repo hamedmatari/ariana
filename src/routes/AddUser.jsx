@@ -1,11 +1,20 @@
-import { Grid, Paper, Button, Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import SelectSkills from "../components/SelectSkills";
+import {
+  Grid,
+  Paper,
+  Button,
+  Typography,
+  Snackbar,
+  TextField,
+} from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 
+import { useState, forwardRef } from "react";
+
+import { useDispatch } from "react-redux";
 import { addUser } from "../redux/ducks/users";
+
+import SelectSkills from "../components/SelectSkills";
 
 import { useNavigate } from "react-router-dom";
 
@@ -31,6 +40,7 @@ export default function AddUser() {
   const [skills, setSkills] = useState([]);
   const [date, setDate] = useState(null);
   const [age, setAge] = useState(null);
+  const [openSnack, setOpenSnack] = useState(false);
 
   document.title = "Add user | Ariana";
 
@@ -48,7 +58,7 @@ export default function AddUser() {
       );
       navigate("/");
     } else {
-      alert("please fill the fields first");
+      setOpenSnack(true);
     }
   };
 
@@ -109,6 +119,31 @@ export default function AddUser() {
           </Button>
         </Grid>
       </Grid>
+      <SnackMessage setOpen={setOpenSnack} open={openSnack} />
     </Paper>
+  );
+}
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+function SnackMessage({ open, setOpen }) {
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Snackbar open={open} autoHideDuration={2500} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          Please fill the fields correctly
+        </Alert>
+      </Snackbar>
+    </div>
   );
 }
