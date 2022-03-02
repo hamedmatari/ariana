@@ -9,12 +9,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AddUser from "./routes/AddUser";
 import ChartPage from "./routes/ChartPage";
 import { PersistGate } from "redux-persist/integration/react";
+import NavBar from "./components/NavBar";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
+          <NavBar />
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/adduser" element={<AddUser />} />
