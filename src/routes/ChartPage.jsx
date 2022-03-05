@@ -11,10 +11,15 @@ export default function ChartPage() {
   document.title = "Charts | Ariana";
   const users = useSelector((state) => state.users.users);
 
-  const ages = users.map((user) => user.age);
-  const names = users.map((user) => user.name);
-
   const skills = users.map((user) => user.skills);
+
+  const agesSet = [...new Set(users.map((user) => user.age))];
+  const agesAmount = agesSet.reduce((a, v) => ({ ...a, [v]: 0 }), {});
+  users.forEach((user) => {
+    agesAmount[user.age]++;
+  });
+  const labelsBar = Object.keys(agesAmount);
+  const valuesBar = Object.values(agesAmount);
 
   const allSkills = {
     HTML: 0,
@@ -32,10 +37,10 @@ export default function ChartPage() {
   const valuesPie = Object.values(allSkills);
 
   const dataBar = {
-    labels: names,
+    labels: labelsBar,
     datasets: [
       {
-        data: ages,
+        data: valuesBar,
         backgroundColor: [
           "rgba(255, 99, 132, 0.3)",
           "rgba(25,  77, 0  , 0.3)",
@@ -104,12 +109,12 @@ export default function ChartPage() {
       alignItems="flex-end"
       sx={{ p: 8 }}
     >
-      <Grid item sx={{ width: "600px" }}>
+      <Grid item sx={{ width: { md: "600px", xs: "300px" } }}>
         <Card sx={{ p: 2 }}>
           <Pie data={dataPie} />
         </Card>
       </Grid>
-      <Grid item sx={{ width: "700px" }}>
+      <Grid item sx={{ width: { md: "700px", xs: "400px" } }}>
         <Card sx={{ p: 2 }}>
           <Bar data={dataBar} />
         </Card>
