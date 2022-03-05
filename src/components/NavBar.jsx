@@ -5,55 +5,66 @@ import {
   Typography,
   Tab,
   Tabs,
-  Button,
   Container,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
+import { Link, matchPath, useLocation } from "react-router-dom";
 
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 
 const NavBar = () => {
-  // const currentTab = routeMatch?.pattern?.path;
+  const routeMatch = useRouteMatch(["/", "/chart", "/adduser"]);
+  const currentTab = routeMatch?.pattern?.path;
+
+  function useRouteMatch(patterns) {
+    const { pathname } = useLocation();
+
+    for (let i = 0; i < patterns.length; i += 1) {
+      const pattern = patterns[i];
+      const possibleMatch = matchPath(pattern, pathname);
+      if (possibleMatch !== null) {
+        return possibleMatch;
+      }
+    }
+
+    return null;
+  }
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            ARIANA LAB
-          </Typography>
-          <HorizontalRuleIcon style={{ transform: "rotate(90deg)" }} />
+    <>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            >
+              ARIANA LABS
+              <HorizontalRuleIcon
+                style={{ marginTop: "4px", transform: "rotate(90deg)" }}
+              />
+            </Typography>
 
-          <Link style={{ textDecoration: "none" }} to="/chart">
-            <Button sx={{ color: "white", display: "block", mx: 2 }}>
-              Charts
-            </Button>
-          </Link>
-          <Link style={{ textDecoration: "none" }} to="/adduser">
-            <Button sx={{ color: "white", display: "block", mx: 2 }}>
-              Add
-            </Button>
-          </Link>
-          <Link style={{ textDecoration: "none" }} to="/">
-            <Button sx={{ color: "white", display: "block", mx: 2 }}>
-              Tabel
-            </Button>
-          </Link>
-
-          {/* <Tabs>
-            <Tab label="Charts" to="/chart" component={Link} />
-            <Tab label="ADD" to="/adduser" component={Link} />
-            <Tab label="Table" component={Link} />
-          </Tabs> */}
-        </Toolbar>
-      </Container>
-    </AppBar>
+            <Tabs
+              // indicatorColor="secondary"
+              textColor="inherit"
+              value={currentTab}
+            >
+              <Tab value="/chart" to="/chart" component={Link} label="Charts" />
+              <Tab
+                value="/adduser"
+                to="/adduser"
+                component={Link}
+                label="Add user"
+              />
+              <Tab value="/" to="/" component={Link} label="Table" />
+            </Tabs>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </>
   );
 };
 
