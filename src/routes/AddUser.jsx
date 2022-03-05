@@ -7,12 +7,14 @@ import {
   TextField,
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 
-import { useState, forwardRef } from "react";
+import { useState, forwardRef, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
-import { addUser } from "../redux/ducks/users";
+import { useDispatch, useSelector } from "react-redux";
+
+import { addUser, deleteUser, editUser } from "../redux/ducks/users";
 
 import SelectSkills from "../components/SelectSkills";
 
@@ -34,19 +36,59 @@ const gridItemStyle = {
   width: "90%",
 };
 
-export default function AddUser() {
+export default function AddUser({ edit, user, setModalState }) {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [skills, setSkills] = useState([]);
   const [date, setDate] = useState(null);
   const [age, setAge] = useState(null);
   const [openSnack, setOpenSnack] = useState(false);
+  const [id, setID] = useState(null);
+
+  const lastID = useSelector((state) => state.users.lastID);
+  console.log(useSelector((state) => state.users.users));
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setSkills(user.skills);
+      setDate(user.date);
+      setAge(user.age);
+      setID(user.id);
+    }
+  }, [user]);
 
   document.title = "Add user | Ariana";
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleDelete = () => {
+    dispatch(
+      deleteUser({
+        id,
+      })
+    );
+    setModalState(false);
+  };
+  const handleEdit = () => {
+    if (name && skills.length >= 1 && date) {
+      dispatch(
+        editUser(
+          {
+            name,
+            date,
+            skills,
+            age,
+          },
+          id
+        )
+      );
+      setModalState(false);
+    } else {
+      setOpenSnack(true);
+    }
+  };
+  const handleSubmit = () => {
     if (name && skills.length >= 1 && date) {
       dispatch(
         addUser({
@@ -72,8 +114,17 @@ export default function AddUser() {
         sx={{ mt: 5 }}
       >
         <Grid align="center" item sx={{ display: "flex" }}>
-          <Typography variant="h6">Add user</Typography>
-          <PersonAddAltRoundedIcon sx={{ ml: 1 }} fontSize="large" />
+          {edit === true ? (
+            <>
+              <Typography variant="h6">Edit user</Typography>
+              <ModeEditIcon sx={{ ml: 1, mt: 0.9 }} fontSize="medium" />
+            </>
+          ) : (
+            <>
+              <Typography variant="h6">Add user</Typography>
+              <PersonAddAltRoundedIcon sx={{ ml: 1 }} fontSize="large" />
+            </>
+          )}
         </Grid>
         <Grid sx={gridItemStyle} item>
           <TextField
@@ -107,17 +158,45 @@ export default function AddUser() {
         <Grid sx={{ my: 5, width: "90%" }} item>
           <SelectSkills selectedSkills={skills} setSelectedSkills={setSkills} />
         </Grid>
-        <Grid item sx={{ width: "90%" }}>
-          <Button
-            onClick={handleClick}
-            size="large"
-            color="primary"
-            variant="contained"
-            fullWidth
-          >
-            Submit
-          </Button>
-        </Grid>
+        {!edit && (
+          <Grid item sx={{ width: "90%" }}>
+            <Button
+              onClick={handleSubmit}
+              size="large"
+              color="primary"
+              variant="contained"
+              fullWidth
+            >
+              Submit
+            </Button>
+          </Grid>
+        )}
+        {edit && (
+          <>
+            <Grid item sx={{ mt: 2, width: "90%" }}>
+              <Button
+                onClick={handleEdit}
+                size="large"
+                color="primary"
+                variant="contained"
+                fullWidth
+              >
+                Edit
+              </Button>
+            </Grid>
+            <Grid item sx={{ mt: 2, width: "90%" }}>
+              <Button
+                onClick={handleDelete}
+                size="large"
+                color="error"
+                variant="contained"
+                fullWidth
+              >
+                Delete
+              </Button>
+            </Grid>
+          </>
+        )}
       </Grid>
       <SnackMessage setOpen={setOpenSnack} open={openSnack} />
     </Paper>
